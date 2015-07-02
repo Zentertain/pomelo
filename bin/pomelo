@@ -449,7 +449,13 @@ function terminal(signal, opts) {
     return;
   }
   var id = 'pomelo_terminal_' + Date.now();
-  connectToMaster(id, opts, function(client) {
+  // connectToMaster(id, opts, function(client) {
+  connectToMasterWithError(id, opts, function(err, client) {
+    if (err) {
+      // Error happen, usually means pomelo not started, try start it.
+      process.exit(0);
+      return;
+    }
     client.request(co.moduleId, {
       signal: signal, ids: opts.serverIds
     }, function(err, msg) {
@@ -478,6 +484,13 @@ function restart(opts) {
   if(!!opts.type) {
     type = opts.type;
   }
+
+  // connectToMasterWithError(id, opts, function(err, client) {
+  //   if (err) {
+  //     // Error happen, usually means pomelo not started, try start it.
+  //     start(opts);
+  //     return;
+  //   }
   connectToMaster(id, opts, function(client) {
     client.request(co.moduleId, { signal: 'restart', ids: serverIds, type: type}, function(err, fails) {
       if(!!err) {
@@ -500,6 +513,15 @@ function connectToMaster(id, opts, cb) {
     }
     if(typeof cb === 'function') {
       cb(client);
+    }
+  });
+}
+
+function connectToMasterWithError(id, opts, cb) {
+  var client = new adminClient({username: opts.username, password: opts.password, md5: true});
+  client.connect(id, opts.host, opts.port, function(err) {
+    if(typeof cb === 'function') {
+      cb(err, client);
     }
   });
 }
