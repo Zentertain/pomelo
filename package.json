@@ -35,7 +35,7 @@
     "cliff": "0.1.8",
     "lodash": "^3.10.0",
     "mkdirp": "0.3.3",
-    "newrelic": "^1.21.0",
+    "newrelic": "1.20.0",
     "pomelo-loader": "git://github.com/Zentertain/pomelo-loader.git",
     "pomelo-rpc": "0.4.10",
     "pomelo-protocol": "0.1.6",
