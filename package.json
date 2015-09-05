@@ -33,6 +33,7 @@
     "seq-queue": "0.0.5",
     "crc": "0.2.0",
     "cliff": "0.1.8",
+    "forever": "^0.15.1",
     "lodash": "^3.10.0",
     "mkdirp": "0.3.3",
     "pomelo-loader": "git://github.com/Zentertain/pomelo-loader.git",

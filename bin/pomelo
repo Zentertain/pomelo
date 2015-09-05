@@ -19,6 +19,8 @@ var fs = require('fs'),
   constants = require('../lib/util/constants'),
   program = require('commander');
 
+var forever = require('forever');
+
 /**
  *  Constant Variables
  */
@@ -353,6 +355,17 @@ function start(opts) {
   if(!!opts.id) {
     params.push('startId=' + opts.id);
   }
+
+  if (opts.env === 'production') {
+    // Use forever to start servers on production.
+    params.shift();
+    var logFile = path.join(path.dirname(absScript), 'logs', 'forever.log');
+    var childLogFile = path.join(path.dirname(absScript), 'logs', 'forever-master.log');
+    forever.startDaemon(absScript, { args: params, logFile: logFile, outFile: childLogFile, errFile: childLogFile } )
+    console.log(DAEMON_INFO);
+    return;
+  }
+
   if (opts.daemon) {
     ls = spawn(process.execPath, params, {detached: true, stdio: 'ignore'});
     ls.unref();
