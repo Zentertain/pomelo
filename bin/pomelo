@@ -356,7 +356,7 @@ function start(opts) {
     params.push('startId=' + opts.id);
   }
 
-  if (opts.env === 'production') {
+  if (opts.env === 'production' || env === 'beta') {
     // Use forever to start servers on production.
     params.shift();
     var logFile = path.join(path.dirname(absScript), 'logs', 'forever.log');
